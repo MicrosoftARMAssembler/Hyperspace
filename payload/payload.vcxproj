@@ -1,0 +1,204 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|ARM64">
+      <Configuration>Debug</Configuration>
+      <Platform>ARM64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|ARM64">
+      <Configuration>Release</Configuration>
+      <Platform>ARM64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{2F47C2CC-5EA8-43BC-A367-B0187627ED83}</ProjectGuid>
+    <TemplateGuid>{1bc93793-694f-48fe-9372-81e2b05556fd}</TemplateGuid>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <MinimumVisualStudioVersion>12.0</MinimumVisualStudioVersion>
+    <Configuration>Debug</Configuration>
+    <Platform Condition="'$(Platform)' == ''">x64</Platform>
+    <RootNamespace>payload</RootNamespace>
+    <WindowsTargetPlatformVersion>$(LatestTargetPlatformVersion)</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <TargetVersion>Windows10</TargetVersion>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>WindowsKernelModeDriver10.0</PlatformToolset>
+    <ConfigurationType>Driver</ConfigurationType>
+    <DriverType>KMDF</DriverType>
+    <DriverTargetPlatform>Universal</DriverTargetPlatform>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <TargetVersion>Windows10</TargetVersion>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>WindowsKernelModeDriver10.0</PlatformToolset>
+    <ConfigurationType>Driver</ConfigurationType>
+    <DriverType>KMDF</DriverType>
+    <DriverTargetPlatform>Universal</DriverTargetPlatform>
+    <ALLOW_DATE_TIME>1</ALLOW_DATE_TIME>
+    <Driver_SpectreMitigation>false</Driver_SpectreMitigation>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'" Label="Configuration">
+    <TargetVersion>Windows10</TargetVersion>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>WindowsKernelModeDriver10.0</PlatformToolset>
+    <ConfigurationType>Driver</ConfigurationType>
+    <DriverType>KMDF</DriverType>
+    <DriverTargetPlatform>Universal</DriverTargetPlatform>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'" Label="Configuration">
+    <TargetVersion>Windows10</TargetVersion>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>WindowsKernelModeDriver10.0</PlatformToolset>
+    <ConfigurationType>Driver</ConfigurationType>
+    <DriverType>KMDF</DriverType>
+    <DriverTargetPlatform>Universal</DriverTargetPlatform>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\marmasm.props" />
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <DebuggerFlavor>DbgengKernelDebugger</DebuggerFlavor>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <DebuggerFlavor>DbgengKernelDebugger</DebuggerFlavor>
+    <OutDir>..\builds\</OutDir>
+    <IntDir>..\builds\intermediate\</IntDir>
+    <IncludePath>.\;$(IncludePath)</IncludePath>
+    <TargetName>hyperspace</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
+    <DebuggerFlavor>DbgengKernelDebugger</DebuggerFlavor>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
+    <DebuggerFlavor>DbgengKernelDebugger</DebuggerFlavor>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <DriverSign>
+      <FileDigestAlgorithm>sha256</FileDigestAlgorithm>
+    </DriverSign>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <DriverSign>
+      <FileDigestAlgorithm>sha256</FileDigestAlgorithm>
+    </DriverSign>
+    <ClCompile>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <ClCompile>
+      <LanguageStandard_C>stdclatest</LanguageStandard_C>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
+      <TreatWarningAsError>false</TreatWarningAsError>
+    </ClCompile>
+    <Link>
+      <EntryPointSymbol>entry_point</EntryPointSymbol>
+      <TreatLinkerWarningAsErrors>false</TreatLinkerWarningAsErrors>
+      <AdditionalDependencies>ntstrsafe.lib;Netio.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
+    <DriverSign>
+      <FileDigestAlgorithm>sha256</FileDigestAlgorithm>
+    </DriverSign>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
+    <DriverSign>
+      <FileDigestAlgorithm>sha256</FileDigestAlgorithm>
+    </DriverSign>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <FilesToPackage Include="$(TargetPath)" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="dep\hde\hde32.cpp" />
+    <ClCompile Include="dep\hde\hde64.cpp" />
+    <ClCompile Include="dep\oxorany\oxorany.cxx" />
+    <ClCompile Include="entrypoint.cxx" />
+    <ClInclude Include="dep\hde\hde.h" />
+    <ClInclude Include="dep\hde\hde32.h" />
+    <ClInclude Include="dep\hde\hde64.h" />
+    <ClInclude Include="dep\hde\hde_stdint.h" />
+    <ClInclude Include="dep\hde\table32.h" />
+    <ClInclude Include="dep\hde\table64.h" />
+    <ClInclude Include="impl\obf\bogus.hxx" />
+    <ClInclude Include="impl\obf\obf.hxx" />
+    <ClInclude Include="src\handler\client\client.hxx" />
+    <ClInclude Include="src\handler\client\root\root.hxx" />
+    <ClInclude Include="src\handler\handler.hxx" />
+    <ClInclude Include="src\mmu\core\callback.hxx" />
+    <ClInclude Include="src\mmu\core\excep\excep.hxx" />
+    <ClInclude Include="src\mmu\core\excep\stack.hxx" />
+    <ClInclude Include="src\mmu\core\nmi\hook.hxx" />
+    <ClInclude Include="src\mmu\core\nmi\nmi.hxx" />
+    <ClInclude Include="src\mmu\core\etw\etw.hxx" />
+    <ClInclude Include="src\mmu\core\etw\hook.hxx" />
+    <ClInclude Include="src\mmu\core\pg.hxx" />
+    <ClInclude Include="src\mmu\core\ssdt.hxx" />
+    <ClInclude Include="src\mmu\core\vad.hxx" />
+    <ClInclude Include="src\mmu\core\eac\eac.hxx" />
+    <ClInclude Include="src\mmu\core\kep\hook.hxx" />
+    <ClInclude Include="src\mmu\core\eac\memory.hxx" />
+    <ClInclude Include="src\mmu\core\eac\structs.h" />
+    <ClInclude Include="src\mmu\core\kep\kep.hxx" />
+    <ClInclude Include="src\mmu\core\lbr.hxx" />
+    <ClInclude Include="src\mmu\mmu.hxx" />
+    <ClInclude Include="src\mmu\core\phys.hxx" />
+    <ClInclude Include="src\mmu\core\tlb.hxx" />
+    <ClInclude Include="src\mmu\ops\tlb\tlb.hxx" />
+    <ClInclude Include="src\paging\dpm\dpm.hxx" />
+    <ClInclude Include="src\paging\guard.hxx" />
+    <ClInclude Include="src\paging\hyperspace\hyperspace.hxx" />
+    <ClInclude Include="src\paging\pagetables.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="dep\hexrays\hexrays.h" />
+    <ClInclude Include="dep\oxorany\include.h" />
+    <ClInclude Include="dep\oxorany\oxorany.h" />
+    <ClInclude Include="src\handler\client\control.h" />
+    <ClInclude Include="impl\std\stdlib.h" />
+    <ClInclude Include="src\ntoskrnl\ia32\ia32.h" />
+    <ClInclude Include="impl\includes.h" />
+    <ClInclude Include="impl\std\std.h" />
+    <ClInclude Include="src\ioctl\device\device.hxx" />
+    <ClInclude Include="src\ioctl\device\irp.h" />
+    <ClInclude Include="src\mmu\ops\allocator\allocator.hxx" />
+    <ClInclude Include="src\mmu\module\module.hxx" />
+    <ClInclude Include="src\mmu\process\process.hxx" />
+    <ClInclude Include="src\mmu\ops\physical\physical.hxx" />
+    <ClInclude Include="src\ntoskrnl\exports\exports.hxx" />
+    <ClInclude Include="src\ntoskrnl\ntoskrnl.hxx" />
+    <ClInclude Include="src\paging\hide\hide.hxx" />
+    <ClInclude Include="src\paging\paging.hxx" />
+    <ClInclude Include="src\paging\ptm\ptm.hxx" />
+    <ClInclude Include="src\paging\pth\pth.hxx" />
+  </ItemGroup>
+  <ItemGroup>
+    <MASM Include="src\ntoskrnl\ntoskrnl.asm" />
+  </ItemGroup>
+  <ItemGroup>
+    <MASM Include="src\mmu\core\excep\excep.asm">
+      <FileType>Document</FileType>
+    </MASM>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\marmasm.targets" />
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.targets" />
+  </ImportGroup>
+</Project>

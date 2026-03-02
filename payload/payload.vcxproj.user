@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ShowAllFiles>true</ShowAllFiles>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+    <SignMode>Off</SignMode>
+    <TestCertificate>CN="WDKTestCert lepro,134125888998430343" | 6CC2A842BA1C25C34A577BF802315CC31B5FB7B0</TestCertificate>
+  </PropertyGroup>
+</Project>
