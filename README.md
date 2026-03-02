@@ -1,10 +1,10 @@
-# Angel-Engine
-Angel Engine is a multi purpose Windows Kernel Driver that has been in development since June 2025. <br />
-I've applied Angel Engine for every purpose I've thought of **Injecting, Emulating, Dumping, Externals, e.g..** <br />
+# Hyperspace
+Hyperspace is a multi purpose Windows Kernel Driver that has been in development since June 2025. <br />
+I've applied Hyperspace for every purpose I've thought of **Injecting, Emulating, Dumping, Externals, e.g..** <br />
 It's one of my biggest projects that I've ever developed, it's been in development for years and I hope you can enjoy. <br />
 
-# What makes Angel Engine Undetected? 
-Angel Engine was **designed to bypass Anti-Cheat Integrity Checks**. <br />
+# What makes Hyperspace Undetected? 
+Hyperspace was **designed to bypass Anti-Cheat Integrity Checks**. <br />
 This was made possible through hours of Reverse-Engineering the industry-leading Anti-Cheat. (**EasyAntiCheat**) <br />
 I will cover all of the fundamentals for what it's bypassing and the reason. <br />
 
@@ -103,8 +103,8 @@ I will cover all of the fundamentals for what it's bypassing and the reason. <br
   The driver validates the semaphore, processes the request, then releases a response semaphore to notify completion. <br />  
 </details>
 
-# What can Angel Engine do?
-Angel Engine is a diverse kernel driver with applications for emulation, injection, dumping, and external memory operations. <br />
+# What can Hyperspace do?
+Hyperspace is a diverse kernel driver with applications for emulation, injection, dumping, and external memory operations. <br />
 
 <details>
   <summary>Table of Contents</summary>
@@ -131,7 +131,7 @@ Angel Engine is a diverse kernel driver with applications for emulation, injecti
 </details>
 
 ## EasyAntiCheat
-Angel Engine emulates EasyAntiCheat by hooking <b>KEP (Kernel Export Patch)</b> and <b>ETW (Event Windows Tracing)</b>. <br />
+Hyperspace (aka Angel-Engine Emulator) emulates EasyAntiCheat by hooking <b>KEP (Kernel Export Patch)</b> and <b>ETW (Event Windows Tracing)</b>. <br />
 We additionally pattern scan EasyAntiCheat's driver to find internal functions, and <b>call them directly</b> instead of using APIs. <br />
 This makes all operations appear as <b>EAC itself is performing them</b>, bypassing stack walking and integrity checks. <br />
 
@@ -156,12 +156,12 @@ This makes all operations appear as <b>EAC itself is performing them</b>, bypass
 - Create Callback - <a href="https://github.com/MicrosoftMacroAssembler/Angel-Engine-Emulator/blob/fbe87b1d5fbc8dffb8d4db36c0a08cdb705031d6/payload/src/mmu/core/eac/eac.hxx#L125-L134">View Code</a><br />
 
 ## DLL Injector
-Angel Engine injects DLLs using reliable dependency resolution, and post-injection cleanup. <br />
+Hyperspace injects DLLs using reliable dependency resolution, and post-injection cleanup. <br />
 Instead of hooking monitored **IDxgiSwapChain::Present**, we swap **DiscordHook64.dll's PeekMessage** hook. <br />
 This bypasses anti-cheat heuristics that specifically watch for Direct3D/DXGI hooks.
 
 ### Dependency Resolving
-Angel Engine uses a multi-layered fallback system to resolve DLL dependencies. <br />
+Hyperspace uses a multi-layered fallback system to resolve DLL dependencies. <br />
 This ensures **100% dependency resolution** across all scenarios:
 1. **API Set Resolving** - Uses Windows API sets to resolve C runtime libraries via API scheming
 2. **KnownDLLs Registry** - Checks the KnownDLLs registry key for system libraries
@@ -170,12 +170,12 @@ This ensures **100% dependency resolution** across all scenarios:
 5. **PDB Symbols** - Searches debug symbols to locate dependencies
 
 ### Injection Cleanup
-After successful injection, Angel Engine cleans up to reduce detection:
+After successful injection, Hyperspace cleans up to reduce detection:
 * Erases **non-discardable PE sections** from memory
 * Removes **allocated shellcode** used during injection
 
 ### Allocation Methods
-Angel Engine dynamically selects a allocation method based on the target process. [View Code](./library/main.cxx#L516-L557)
+Hyperspace dynamically selects a allocation method based on the target process. [View Code](./library/main.cxx#L516-L557)
 | Method | When Used | Code |
 |--------|-----------|------|
 | **EAC Allocation** | For EasyAntiCheat-protected processes | [View Code](./library/main.cxx#L110-L120) |
@@ -183,7 +183,7 @@ Angel Engine dynamically selects a allocation method based on the target process
 | **VAD Allocation** | A backup if you want to switch from Remap | [View Code](./library/main.cxx#L482-492) |
 
 ## Dumper
-Angel Engine Dumper captures and decrypts pages from a target process protected by EasyAntiCheat. <br />
+Hyperspace Dumper captures and decrypts pages from a target process protected by EasyAntiCheat. <br />
 The dumper iterates through all pages in the target process, leveraging EAC to decrypt encrypted pages:
 
 1. **Page Enumeration** - Scans all pages in the process image
@@ -204,6 +204,6 @@ The dumper iterates through all pages in the target process, leveraging EAC to d
 - [ ] Finish KPP Bypass for different versions
 
 ## Conclusion
-Angel Engine is a comprehensive kernel driver built to bypass anti-cheat integrity checks. <br />
+Hyperspace is a comprehensive kernel driver built to bypass anti-cheat integrity checks. <br />
 Review the **source code** for detailed implementation and documentation. <br />
 Found issues or want to contribute? Create an issue or contact me on Discord. <br />
