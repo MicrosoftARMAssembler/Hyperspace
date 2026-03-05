@@ -179,8 +179,9 @@ namespace kep {
                     release_lock( );
                     return false;
                 }
-            }/*
-
+            }
+            
+            /* Would be more stable - but there are problems
             std::uint64_t section_size;
             std::uint64_t section_base;
             if ( !nt::get_section( oxorany( ".data" ), &section_base, &section_size ) ) {
