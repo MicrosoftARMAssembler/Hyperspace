@@ -33,16 +33,15 @@ bool entry_point(
     if ( !paging::dpm::initialize( ) )
         return false;
 
-    //if ( !paging::hyperspace::create_hyperspace( nt::m_eprocess ) )
-    //    return false;
+    if ( !paging::hyperspace::create_hyperspace( nt::m_eprocess ) )
+        return false;
 
-    //if ( !paging::hyperspace::remap_to_hyperspace( nt::m_eprocess, image_address, image_size ) )
-    //    return false;
+    if ( !paging::hyperspace::remap_to_hyperspace( nt::m_eprocess, image_address, image_size ) )
+        return false;
 
-    // Check out excep.hxx for reasoning behind removal
+    // Check out excep.hxx for reasoning behind removal (excep/pg)
     //if ( !excep::initialize( ) )
     //    return false;
-
     //if ( !pg::disable_integrity( ) )
     //    return false;
 
@@ -60,43 +59,43 @@ bool entry_point(
     //if ( !nmi::initialize( ) )
     //    return false;
 
-    //if ( !handler::create_rundown( ) )
-    //    return false;
+    if ( !handler::create_rundown( ) )
+        return false;
 
-    //auto subscribe_callback = [ ] (
-    //    void*, PCWNF_STATE_NAME, long, long, void*, void*
-    //    ) -> nt_status_t {
-    //        if ( !nt::ex_acquire_rundown_protection( &handler::m_wnf_rundown ) )
-    //            return nt_status_t::success;
+    auto subscribe_callback = [ ] (
+        void*, PCWNF_STATE_NAME, long, long, void*, void*
+        ) -> nt_status_t {
+            if ( !nt::ex_acquire_rundown_protection( &handler::m_wnf_rundown ) )
+                return nt_status_t::success;
 
-    //        auto result = handler::subscribe_callback( );
-    //        nt::ex_release_rundown_protection( &handler::m_wnf_rundown );
-    //        return result;
-    //    };
+            auto result = handler::subscribe_callback( );
+            nt::ex_release_rundown_protection( &handler::m_wnf_rundown );
+            return result;
+        };
 
-    //WNF_STATE_NAME state_name{ 0 };
-    //state_name.Data[ 0 ] = static_cast< uint32_t >( 0x0d83063ea3be0875 & 0xFFFFFFFF );
-    //state_name.Data[ 1 ] = static_cast< uint32_t >( ( 0x0d83063ea3be0875 >> 32 ) & 0xFFFFFFFF );
+    WNF_STATE_NAME state_name{ 0 };
+    state_name.Data[ 0 ] = static_cast< uint32_t >( 0x0d83063ea3be0875 & 0xFFFFFFFF );
+    state_name.Data[ 1 ] = static_cast< uint32_t >( ( 0x0d83063ea3be0875 >> 32 ) & 0xFFFFFFFF );
 
-    //if ( nt::ex_subscribe_wnf_state_change(
-    //    &handler::m_wnf_subscription,
-    //    &state_name,
-    //    3,
-    //    nullptr,
-    //    subscribe_callback,
-    //    handler::m_wnf_ctx
-    //) ) {
-    //    nt::ex_unsubscribe_wnf_state_change( &handler::m_wnf_subscription );
-    //    nt::ex_free_pool_with_tag( handler::m_wnf_ctx, oxorany( 'Wnfx' ) );
-    //    handler::m_wnf_ctx = nullptr;
-    //    return false;
-    //}
+    if ( nt::ex_subscribe_wnf_state_change(
+        &handler::m_wnf_subscription,
+       &state_name,
+        3,
+        nullptr,
+        subscribe_callback,
+        handler::m_wnf_ctx
+    ) ) {
+        nt::ex_unsubscribe_wnf_state_change( &handler::m_wnf_subscription );
+        nt::ex_free_pool_with_tag( handler::m_wnf_ctx, oxorany( 'Wnfx' ) );
+        handler::m_wnf_ctx = nullptr;
+        return false;
+    }
 
-    //if ( !callback::create_process( handler::process_callback ) )
-    //    return false;
+    if ( !callback::create_process( handler::process_callback ) )
+        return false;
 
-    //if ( !callback::create_image( handler::image_callback ) )
-    //    return false;
+    if ( !callback::create_image( handler::image_callback ) )
+        return false;
 
     nt::dbg_print( oxorany( "[entry] angel engine emulator initialized\n" ) );
     return true;
